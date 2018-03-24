@@ -13,8 +13,8 @@ import java.io.IOException;
 public class Application {
     public static void main(String[] args) throws IOException {
         CSV_Reader csv_reader = new CSV_Reader();
-
         csv_reader.readData();
+        csv_reader.printCourses();
         SpringApplication.run(Application.class, args);
     }
 }

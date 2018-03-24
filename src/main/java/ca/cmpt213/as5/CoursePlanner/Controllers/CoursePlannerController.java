@@ -14,9 +14,8 @@ public class CoursePlannerController {
 
     @GetMapping("/dump-model")
     public String getDumpModel() throws IOException {
-        CSV_Reader csv_reader = new CSV_Reader();
-
-        csv_reader.readData();
+      //  CSV_Reader csv_reader = new CSV_Reader();
+      //  csv_reader.readData();
 
     return null;
     }

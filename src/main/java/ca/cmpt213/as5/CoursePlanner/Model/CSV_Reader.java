@@ -17,10 +17,11 @@ public class CSV_Reader {
     private final int INSTRUCTOR = 6;
     private final int COMPONENT_CODE = 7;
 
+    private ArrayList<SFU_Course> sfu_courses = new ArrayList<>();
 
     public void readData() throws IOException {
 
-        String file = "data/test_data_2016.csv";
+        String file = "data/test_data_2018.csv";
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine(); //skip first line
@@ -60,7 +61,7 @@ public class CSV_Reader {
                 }
 
                 if (i == SUBJECT) {
-                    sfu_class.setSubject(word);
+                    sfu_class.setSubject(StringUtils.trimWhitespace(word));
                 }
 
                 if (i == CATALOG_NUMBER) {
@@ -68,7 +69,7 @@ public class CSV_Reader {
                 }
 
                 if (i == LOCATION) {
-                    sfu_class.setLocation(word);
+                    sfu_class.setLocation(StringUtils.trimWhitespace(word));
                 }
 
                 if (i == ENROLMENT_CAPACITY) {
@@ -94,12 +95,56 @@ public class CSV_Reader {
 
             i++;
         }
+
         sfu_class.setInstructors(instructors);
         sfu_class.printClass();
         System.out.println();
-
+        updateCourses(sfu_class);
 
     }
 
+
+    private void updateCourses(SFU_Class sfu_class) {
+
+        boolean isNewCourse = true;
+
+        for (SFU_Course course : sfu_courses) {
+
+            if (course.getSubject().equals(sfu_class.getSubject())
+                    && course.getCatalogNumber().equals(sfu_class.getCatalogNumber())) {
+                course.addSfu_classes(sfu_class);
+                isNewCourse = false;
+                break;
+            }
+
+        }
+
+        if (isNewCourse) {
+            SFU_Course sfu_course = new SFU_Course(sfu_class.getSubject(), sfu_class.getCatalogNumber());
+            sfu_course.addSfu_classes(sfu_class);
+            sfu_courses.add(sfu_course);
+        }
+
+    }
+
+
+    public void printCourses() {
+        System.out.println();
+        System.out.println();
+        System.out.println("Printing Courses:");
+        for (SFU_Course course : sfu_courses) {
+
+            System.out.println(course.getSubject() + " " + course.getCatalogNumber());
+
+            for (SFU_Class sfu_class : course.getSfu_classes()) {
+                System.out.print("\t");
+                sfu_class.printClass();
+                System.out.println();
+            }
+
+            System.out.println();
+
+        }
+    }
 
 }
