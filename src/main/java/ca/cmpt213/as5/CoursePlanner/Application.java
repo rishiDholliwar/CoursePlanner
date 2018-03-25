@@ -1,6 +1,6 @@
 package ca.cmpt213.as5.CoursePlanner;
 
-import ca.cmpt213.as5.CoursePlanner.Model.CSV_Reader;
+import ca.cmpt213.as5.CoursePlanner.Model.CSVCourseFileReader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,9 +12,10 @@ import java.io.IOException;
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) throws IOException {
-        CSV_Reader csv_reader = new CSV_Reader();
-        csv_reader.readData();
-        csv_reader.printCourses();
         SpringApplication.run(Application.class, args);
+
+        CSVCourseFileReader csvCourseFileReader = new CSVCourseFileReader("data/test_data_2018.csv");
+        csvCourseFileReader.getCoursesFromCSVFile();
+        csvCourseFileReader.printCourses();
     }
 }

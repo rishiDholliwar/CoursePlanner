@@ -2,13 +2,13 @@ package ca.cmpt213.as5.CoursePlanner.Model;
 
 import java.util.ArrayList;
 
-public class SFU_Course {
+public class SFUCourse {
 
     private String subject;
     private String catalogNumber;
-    private ArrayList<SFU_Class> sfu_classes = new ArrayList<>();
+    private ArrayList<SFUClass> sfu_classes = new ArrayList<>();
 
-    public SFU_Course(String subject, String catalogNumber) {
+    public SFUCourse(String subject, String catalogNumber) {
         this.subject = subject;
         this.catalogNumber = catalogNumber;
     }
@@ -29,11 +29,11 @@ public class SFU_Course {
         this.catalogNumber = catalogNumber;
     }
 
-    public ArrayList<SFU_Class> getSfu_classes() {
+    public ArrayList<SFUClass> getSfu_classes() {
         return sfu_classes;
     }
 
-    public void addSfu_classes(SFU_Class sfu_class) {
+    public void addSfu_classes(SFUClass sfu_class) {
         this.sfu_classes.add(sfu_class);
     }
 }

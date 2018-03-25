@@ -2,28 +2,28 @@ package ca.cmpt213.as5.CoursePlanner.Model;
 
 import java.util.ArrayList;
 
-public class SFU_Class {
+public class SFUClass {
 
     private int semester;
     private String subject;
     private String catalogNumber;
     private String location;
-    private int enrolementCapacity;
-    private int enrolementTotal;
+    private int enrollmentCapacity;
+    private int enrollmentTotal;
     private ArrayList<String> instructors;
     private String componentCode;
 
-    public SFU_Class(){
+    public SFUClass() {
 
     }
 
-    public SFU_Class(int semester, String subject, String catalogNumber, String location, int enrolementCapacity, int enrolementTotal, ArrayList<String> instructor, String componentCode) {
+    public SFUClass(int semester, String subject, String catalogNumber, String location, int enrollmentCapacity, int enrollmentTotal, ArrayList<String> instructor, String componentCode) {
         this.semester = semester;
         this.subject = subject;
         this.catalogNumber = catalogNumber;
         this.location = location;
-        this.enrolementCapacity = enrolementCapacity;
-        this.enrolementTotal = enrolementTotal;
+        this.enrollmentCapacity = enrollmentCapacity;
+        this.enrollmentTotal = enrollmentTotal;
         this.instructors = instructor;
         this.componentCode = componentCode;
     }
@@ -60,20 +60,20 @@ public class SFU_Class {
         this.location = location;
     }
 
-    public int getEnrolementCapacity() {
-        return enrolementCapacity;
+    public int getEnrollmentCapacity() {
+        return enrollmentCapacity;
     }
 
-    public void setEnrolementCapacity(int enrolementCapacity) {
-        this.enrolementCapacity = enrolementCapacity;
+    public void setEnrollmentCapacity(int enrollmentCapacity) {
+        this.enrollmentCapacity = enrollmentCapacity;
     }
 
-    public int getEnrolementTotal() {
-        return enrolementTotal;
+    public int getEnrollmentTotal() {
+        return enrollmentTotal;
     }
 
-    public void setEnrolementTotal(int enrolementTotal) {
-        this.enrolementTotal = enrolementTotal;
+    public void setEnrollmentTotal(int enrollmentTotal) {
+        this.enrollmentTotal = enrollmentTotal;
     }
 
     public ArrayList<String> getInstructors() {
@@ -89,7 +89,8 @@ public class SFU_Class {
     }
 
     public void setComponentCode(String componentCode) {
-        this.componentCode = componentCode.replaceAll(" ", "");;
+        this.componentCode = componentCode.replaceAll(" ", "");
+        ;
     }
 
     public void printClass() {
@@ -97,15 +98,15 @@ public class SFU_Class {
                 + subject + " "
                 + catalogNumber + " "
                 + location + " "
-                + enrolementCapacity + " "
-                + enrolementTotal + " ");
+                + enrollmentCapacity + " "
+                + enrollmentTotal + " ");
         printInstructors();
         System.out.print(componentCode + " ");
     }
 
     private void printInstructors() {
 
-        for(String instructor: instructors){
+        for (String instructor : instructors) {
             System.out.print(instructor + " ");
         }
 
