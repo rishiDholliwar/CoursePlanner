@@ -55,7 +55,7 @@ public class CSVCourseFileReader {
 
             System.out.println(course.getSubject() + SINGLE_SPACE + course.getCatalogNumber());
 
-            for (SFUClass sfu_class : course.getSfu_classes()) {
+            for (SFUClass sfu_class : course.getSfuClasses()) {
                 System.out.print("\t");
                 sfu_class.printClass();
                 System.out.println();
@@ -98,6 +98,7 @@ public class CSVCourseFileReader {
         sfuClass.printClass();
         System.out.println();
         updateCourses(sfuClass);
+
 
     }
 
@@ -156,6 +157,8 @@ public class CSVCourseFileReader {
         boolean isNewCourse = true;
 
         for (SFUCourse course : sfuCourses) {
+            java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
+
             if (course.getSubject().equals(sfu_class.getSubject())
                     && course.getCatalogNumber().equals(sfu_class.getCatalogNumber())) {
                 course.addSfu_classes(sfu_class);

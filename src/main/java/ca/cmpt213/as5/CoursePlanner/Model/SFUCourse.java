@@ -6,7 +6,7 @@ public class SFUCourse {
 
     private String subject;
     private String catalogNumber;
-    private ArrayList<SFUClass> sfu_classes = new ArrayList<>();
+    private ArrayList<SFUClass> sfuClasses = new ArrayList<>();
 
     public SFUCourse(String subject, String catalogNumber) {
         this.subject = subject;
@@ -29,11 +29,11 @@ public class SFUCourse {
         this.catalogNumber = catalogNumber;
     }
 
-    public ArrayList<SFUClass> getSfu_classes() {
-        return sfu_classes;
+    public ArrayList<SFUClass> getSfuClasses() {
+        return sfuClasses;
     }
 
     public void addSfu_classes(SFUClass sfu_class) {
-        this.sfu_classes.add(sfu_class);
+        this.sfuClasses.add(sfu_class);
     }
 }
