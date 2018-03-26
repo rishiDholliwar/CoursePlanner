@@ -102,6 +102,7 @@ public class CSVCourseFileReader {
         // sfuClass.printClass();
         //   System.out.println();
         updateCourses(sfuClass);
+        //  sortCourses();
 
 
     }
@@ -157,17 +158,16 @@ public class CSVCourseFileReader {
     }
 
     private void updateCourses(SFUClass sfu_class) {
+
         boolean isNewCourse = true;
 
         for (SFUCourse course : sfuCourses) {
             if (course.getSubject().equals(sfu_class.getSubject())
                     && course.getCatalogNumber().equals(sfu_class.getCatalogNumber())) {
-                //  java.util.Collections.sort(course.getSfuClasses(), new EnrollementCapacitySorter());
-                // java.util.Collections.sort(course.getSfuClasses(), new EnrollementTotalSorter());
-                java.util.Collections.sort(course.getSfuClasses(), new LocationSorter());
-                java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
                 course.addSfu_classes(sfu_class);
                 isNewCourse = false;
+                java.util.Collections.sort(course.getSfuClasses(), new LocationSorter());
+                java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
                 break;
             }
         }
@@ -179,4 +179,16 @@ public class CSVCourseFileReader {
         }
 
     }
+
+    private void sortCourses() {
+
+        for (SFUCourse course : sfuCourses) {
+            java.util.Collections.sort(course.getSfuClasses(), new LocationSorter());
+            java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
+
+        }
+
+
+    }
+
 }
