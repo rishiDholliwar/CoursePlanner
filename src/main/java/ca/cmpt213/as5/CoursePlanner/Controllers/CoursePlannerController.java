@@ -9,13 +9,14 @@ import java.io.IOException;
 @RestController
 public class CoursePlannerController {
 
-    String file = "data/test_data_2018.csv";
+    String file = "data/course_data_2018.csv";
 
 
     @GetMapping("/dump-model")
     public String getDumpModel() throws IOException {
         CSVCourseFileReader csvCourseFileReader = new CSVCourseFileReader(file);
         csvCourseFileReader.getCoursesFromCSVFile();
+        csvCourseFileReader.printCourses();
         return null;
     }
 }

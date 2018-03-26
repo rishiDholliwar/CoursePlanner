@@ -157,16 +157,13 @@ public class CSVCourseFileReader {
     }
 
     private void updateCourses(SFUClass sfu_class) {
-
         boolean isNewCourse = true;
 
         for (SFUCourse course : sfuCourses) {
-
-
             if (course.getSubject().equals(sfu_class.getSubject())
                     && course.getCatalogNumber().equals(sfu_class.getCatalogNumber())) {
-              //  java.util.Collections.sort(course.getSfuClasses(), new EnrollementCapacitySorter());
-               // java.util.Collections.sort(course.getSfuClasses(), new EnrollementTotalSorter());
+                //  java.util.Collections.sort(course.getSfuClasses(), new EnrollementCapacitySorter());
+                // java.util.Collections.sort(course.getSfuClasses(), new EnrollementTotalSorter());
                 java.util.Collections.sort(course.getSfuClasses(), new LocationSorter());
                 java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
                 course.addSfu_classes(sfu_class);
@@ -176,11 +173,9 @@ public class CSVCourseFileReader {
         }
 
         if (isNewCourse) {
-
             SFUCourse sfu_course = new SFUCourse(sfu_class.getSubject(), sfu_class.getCatalogNumber());
             sfu_course.addSfu_classes(sfu_class);
             sfuCourses.add(sfu_course);
-
         }
 
     }
