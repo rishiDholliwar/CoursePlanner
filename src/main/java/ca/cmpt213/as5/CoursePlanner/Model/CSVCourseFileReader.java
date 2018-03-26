@@ -1,5 +1,9 @@
 package ca.cmpt213.as5.CoursePlanner.Model;
 
+import ca.cmpt213.as5.CoursePlanner.Model.Sorters.EnrollementCapacitySorter;
+import ca.cmpt213.as5.CoursePlanner.Model.Sorters.EnrollementTotalSorter;
+import ca.cmpt213.as5.CoursePlanner.Model.Sorters.LocationSorter;
+import ca.cmpt213.as5.CoursePlanner.Model.Sorters.SemesterSorter;
 import com.sun.deploy.util.StringUtils;
 
 import java.io.*;
@@ -30,8 +34,8 @@ public class CSVCourseFileReader {
     }
 
     public List<SFUCourse> getCoursesFromCSVFile() throws IOException {
-        System.out.println("----------------------------------------");
-        System.out.println("Printing Classes:");
+        //    System.out.println("----------------------------------------");
+        //   System.out.println("Printing Classes:");
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine(); //skip first line
@@ -95,8 +99,8 @@ public class CSVCourseFileReader {
 
         sfuClass.setInstructors(instructors);
 
-        sfuClass.printClass();
-        System.out.println();
+        // sfuClass.printClass();
+        //   System.out.println();
         updateCourses(sfuClass);
 
 
@@ -157,10 +161,14 @@ public class CSVCourseFileReader {
         boolean isNewCourse = true;
 
         for (SFUCourse course : sfuCourses) {
-            java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
+
 
             if (course.getSubject().equals(sfu_class.getSubject())
                     && course.getCatalogNumber().equals(sfu_class.getCatalogNumber())) {
+              //  java.util.Collections.sort(course.getSfuClasses(), new EnrollementCapacitySorter());
+               // java.util.Collections.sort(course.getSfuClasses(), new EnrollementTotalSorter());
+                java.util.Collections.sort(course.getSfuClasses(), new LocationSorter());
+                java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
                 course.addSfu_classes(sfu_class);
                 isNewCourse = false;
                 break;
@@ -168,9 +176,11 @@ public class CSVCourseFileReader {
         }
 
         if (isNewCourse) {
+
             SFUCourse sfu_course = new SFUCourse(sfu_class.getSubject(), sfu_class.getCatalogNumber());
             sfu_course.addSfu_classes(sfu_class);
             sfuCourses.add(sfu_course);
+
         }
 
     }
