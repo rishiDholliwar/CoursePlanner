@@ -2,7 +2,7 @@ package ca.cmpt213.as5.CoursePlanner.Model;
 
 import java.util.ArrayList;
 
-public class SFUClass {
+public class CSVRow {
 
     private int semester;
     private String subject;
@@ -10,14 +10,14 @@ public class SFUClass {
     private String location;
     private int enrollmentCapacity;
     private int enrollmentTotal;
-    private ArrayList<String> instructors;
+    private ArrayList<String> instructors = new ArrayList<>();
     private String componentCode;
 
-    public SFUClass() {
+    public CSVRow() {
 
     }
 
-    public SFUClass(int semester, String subject, String catalogNumber, String location, int enrollmentCapacity, int enrollmentTotal, ArrayList<String> instructor, String componentCode) {
+    public CSVRow(int semester, String subject, String catalogNumber, String location, int enrollmentCapacity, int enrollmentTotal, ArrayList<String> instructor, String componentCode) {
         this.semester = semester;
         this.subject = subject;
         this.catalogNumber = catalogNumber;

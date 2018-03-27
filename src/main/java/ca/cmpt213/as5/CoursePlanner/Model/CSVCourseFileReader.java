@@ -1,14 +1,14 @@
 package ca.cmpt213.as5.CoursePlanner.Model;
 
-import ca.cmpt213.as5.CoursePlanner.Model.Sorters.EnrollementCapacitySorter;
-import ca.cmpt213.as5.CoursePlanner.Model.Sorters.EnrollementTotalSorter;
+import ca.cmpt213.as5.CoursePlanner.Model.DataManger.*;
+import ca.cmpt213.as5.CoursePlanner.Model.Sorters.CatalogSorter;
 import ca.cmpt213.as5.CoursePlanner.Model.Sorters.LocationSorter;
-import ca.cmpt213.as5.CoursePlanner.Model.Sorters.SemesterSorter;
+import ca.cmpt213.as5.CoursePlanner.Model.Sorters.OfferingSorter;
+import ca.cmpt213.as5.CoursePlanner.Model.Sorters.SectionSorter;
 import com.sun.deploy.util.StringUtils;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CSVCourseFileReader {
     private static final String EMPTY_SPACE = "";
@@ -27,15 +27,17 @@ public class CSVCourseFileReader {
     private final int COMPONENT_CODE = 7;
 
     private String file = null;
-    private ArrayList<SFUCourse> sfuCourses = new ArrayList<>();
+    DataManager dm = new DataManager();
+    private int deptIndex = 0;
 
     public CSVCourseFileReader(String file) {
         this.file = file;
     }
 
-    public List<SFUCourse> getCoursesFromCSVFile() throws IOException {
+    public DataManager getCoursesFromCSVFile() throws IOException {
         //    System.out.println("----------------------------------------");
         //   System.out.println("Printing Classes:");
+
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine(); //skip first line
@@ -48,32 +50,48 @@ public class CSVCourseFileReader {
             System.out.println("File Not Found");
         }
 
-        return sfuCourses;
+        return dm;
     }
 
-    public void printCourses() {
+    public void print() {
         System.out.println();
         System.out.println();
-        System.out.println("Printing Courses:");
-        for (SFUCourse course : sfuCourses) {
+        System.out.println("Printing Course:");
+        for (Department dept : dm.getDepartments()) {
+            if (dept.getDepartment().equals("CMPT")) {
+                System.out.println(dept.getDepartment());
+                for (Course course : dept.getCourses()) {
+                    System.out.print("\t");
+                    System.out.println(course.getCatalogNumber());
+                    for (Offering offering : course.getOfferings()) {
+                        System.out.print("\t\t");
+                        System.out.print(offering.getOffering() + " in ");
+                        for (Location location : offering.getLocations()) {
 
-            System.out.println(course.getSubject() + SINGLE_SPACE + course.getCatalogNumber());
+                            System.out.print(location.getLocation() + " by ");
+                            location.printInstructors();
+                            System.out.println();
+                            for (Section section : location.getSections()) {
+                                System.out.print("\t\t\t ");
+                                System.out.println("Type=" + section.getSection()
+                                        + " Enrollment="
+                                        + section.getTotalEnrollmentTotal()
+                                        + "/"
+                                        + section.getTotalEnrollmentCapacity());
+                            }
+                        }
 
-            for (SFUClass sfu_class : course.getSfuClasses()) {
-                System.out.print("\t");
-                sfu_class.printClass();
-                System.out.println();
+                    }
+                }
+
             }
-
-            System.out.println();
-
         }
     }
 
     private void readLine(String line) {
-        SFUClass sfuClass = new SFUClass();
+        CSVRow row = new CSVRow();
         ArrayList<String> instructors = new ArrayList<>();
-
+        //  DataManager dataManager = new DataManager(StringUtils.trimWhitespace(word));
         int column = 0;
         boolean isAddingMultipleInstructor = false;
         boolean isMultipleInstructors = false;
@@ -91,17 +109,17 @@ public class CSVCourseFileReader {
                     instructors.add(word);
                 }
             } else {
-                addNextColumn(word, column, sfuClass, instructors, isMultipleInstructors);
+                addNextColumn(word, column, row, instructors, isMultipleInstructors);
             }
 
             column++;
         }
 
-        sfuClass.setInstructors(instructors);
-
+        row.setInstructors(instructors);
+        updateDataManager(row);
         // sfuClass.printClass();
         //   System.out.println();
-        updateCourses(sfuClass);
+        //  updateCourses(sfuClass);
         //  sortCourses();
 
 
@@ -119,31 +137,31 @@ public class CSVCourseFileReader {
         return StringUtils.trimWhitespace(word.replaceAll(LAST_MULTIPLE_INSTRUCTOR_SYMBOL, EMPTY_SPACE));
     }
 
-    private void addNextColumn(String word, int column, SFUClass sfuClass, ArrayList<String> instructors
+    private void addNextColumn(String word, int column, CSVRow row, ArrayList<String> instructors
             , boolean isMultipleInstructors) {
 
         if (column == SEMESTER) {
-            sfuClass.setSemester(Integer.parseInt(word));
+            row.setSemester(Integer.parseInt(word));
         }
 
         if (column == SUBJECT) {
-            sfuClass.setSubject(StringUtils.trimWhitespace(word));
+            row.setSubject(StringUtils.trimWhitespace(word));
         }
 
         if (column == CATALOG_NUMBER) {
-            sfuClass.setCatalogNumber(StringUtils.trimWhitespace(word));
+            row.setCatalogNumber(StringUtils.trimWhitespace(word));
         }
 
         if (column == LOCATION) {
-            sfuClass.setLocation(StringUtils.trimWhitespace(word));
+            row.setLocation(StringUtils.trimWhitespace(word));
         }
 
         if (column == ENROLMENT_CAPACITY) {
-            sfuClass.setEnrollmentCapacity(Integer.parseInt(word));
+            row.setEnrollmentCapacity(Integer.parseInt(word));
         }
 
         if (column == ENROLMENT_TOTAL) {
-            sfuClass.setEnrollmentTotal(Integer.parseInt(word));
+            row.setEnrollmentTotal(Integer.parseInt(word));
         }
 
         if (column == INSTRUCTOR) {
@@ -153,42 +171,113 @@ public class CSVCourseFileReader {
         }
 
         if (column == COMPONENT_CODE + (instructors.size() - 1)) {
-            sfuClass.setComponentCode(StringUtils.trimWhitespace(word));
+            row.setComponentCode(StringUtils.trimWhitespace(word));
         }
     }
 
-    private void updateCourses(SFUClass sfu_class) {
 
+    private void updateDataManager(CSVRow row) {
+        boolean isNewDept = true;
+        //  System.out.println("Looking for dept: " + row.getSubject());
+        for (Department dept : dm.getDepartments()) {
+            if (dept.getDepartment().equals(row.getSubject())) {
+                //  System.out.println("found th");
+                addCourse(dept, row);
+                isNewDept = false;
+                break;
+            }
+        }
+
+        if (isNewDept) {
+            Department department = new Department(row.getSubject());
+            dm.addDepartment(department);
+            addCourse(department, row);
+        }
+    }
+
+    public void addCourse(Department dept, CSVRow row) {
         boolean isNewCourse = true;
-
-        for (SFUCourse course : sfuCourses) {
-            if (course.getSubject().equals(sfu_class.getSubject())
-                    && course.getCatalogNumber().equals(sfu_class.getCatalogNumber())) {
-                course.addSfu_classes(sfu_class);
+        for (Course course : dept.getCourses()) {
+            if (course.getCatalogNumber().equals(row.getCatalogNumber())) {
+                addOffering(course, row);
                 isNewCourse = false;
-                java.util.Collections.sort(course.getSfuClasses(), new LocationSorter());
-                java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
+                java.util.Collections.sort(dept.getCourses(), new CatalogSorter());
                 break;
             }
         }
 
         if (isNewCourse) {
-            SFUCourse sfu_course = new SFUCourse(sfu_class.getSubject(), sfu_class.getCatalogNumber());
-            sfu_course.addSfu_classes(sfu_class);
-            sfuCourses.add(sfu_course);
+            Course course = new Course(row.getCatalogNumber());
+            dept.addCourses(course);
+            addOffering(course, row);
+            java.util.Collections.sort(dept.getCourses(), new CatalogSorter());
         }
 
     }
 
-    private void sortCourses() {
-
-        for (SFUCourse course : sfuCourses) {
-            java.util.Collections.sort(course.getSfuClasses(), new LocationSorter());
-            java.util.Collections.sort(course.getSfuClasses(), new SemesterSorter());
-
+    private void addOffering(Course course, CSVRow row) {
+        boolean isNewOffering = true;
+        for (Offering offering : course.getOfferings()) {
+            if (offering.getOffering() == row.getSemester()) {
+                addLocation(offering, row);
+                isNewOffering = false;
+                java.util.Collections.sort(course.getOfferings(), new OfferingSorter());
+                break;
+            }
         }
 
+        if (isNewOffering) {
+            Offering offering = new Offering(row.getSemester());
+            course.addOffering(offering);
+            addLocation(offering, row);
+            java.util.Collections.sort(course.getOfferings(), new OfferingSorter());
+        }
 
     }
 
+    private void addLocation(Offering offering, CSVRow row) {
+        boolean isNewLocation = true;
+
+        for (Location location : offering.getLocations()) {
+            if (location.getLocation().equals(row.getLocation())) {
+
+                addSection(location, row);
+                isNewLocation = false;
+                java.util.Collections.sort(offering.getLocations(), new LocationSorter());
+                break;
+            }
+        }
+
+        if (isNewLocation) {
+            Location location = new Location(row.getLocation());
+            offering.addLocation(location);
+            addSection(location, row);
+            java.util.Collections.sort(offering.getLocations(), new LocationSorter());
+        }
+
+    }
+
+    private void addSection(Location location, CSVRow row) {
+        location.addInstructors(row.getInstructors());
+        boolean isNewSection = true;
+        for (Section section : location.getSections()) {
+            if (section.getSection().equals(row.getComponentCode())) {
+                section.accumalateTotalEnrollmentCapacity(row.getEnrollmentCapacity());
+                section.accumalateTotalEnrollmentTotal(row.getEnrollmentTotal());
+                isNewSection = false;
+                java.util.Collections.sort(location.getSections(), new SectionSorter());
+                break;
+            }
+        }
+
+        if (isNewSection) {
+            Section section = new Section(row.getComponentCode());
+            location.addSection(section);
+            section.accumalateTotalEnrollmentCapacity(row.getEnrollmentCapacity());
+            section.accumalateTotalEnrollmentTotal(row.getEnrollmentTotal());
+            //    addSection(location, row);
+            java.util.Collections.sort(location.getSections(), new SectionSorter());
+        }
+
+    }
 }

@@ -15,7 +15,7 @@ public class CoursePlannerController {
     public String getDumpModel() throws IOException {
         CSVCourseFileReader csvCourseFileReader = new CSVCourseFileReader(file);
         csvCourseFileReader.getCoursesFromCSVFile();
-        csvCourseFileReader.printCourses();
+        csvCourseFileReader.print();
         return null;
     }
 }
