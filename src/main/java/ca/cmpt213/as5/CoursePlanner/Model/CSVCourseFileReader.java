@@ -6,6 +6,7 @@ import ca.cmpt213.as5.CoursePlanner.Model.Sorters.LocationSorter;
 import ca.cmpt213.as5.CoursePlanner.Model.Sorters.OfferingSorter;
 import ca.cmpt213.as5.CoursePlanner.Model.Sorters.SectionSorter;
 import com.sun.deploy.util.StringUtils;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -56,36 +57,57 @@ public class CSVCourseFileReader {
     public void print() {
         System.out.println();
         System.out.println();
-        System.out.println("Printing Course:");
+        System.out.println("Printing CSV File:");
         for (Department dept : dm.getDepartments()) {
             if (dept.getDepartment().equals("CMPT")) {
-                System.out.println(dept.getDepartment());
-                for (Course course : dept.getCourses()) {
-                    System.out.print("\t");
-                    System.out.println(course.getCatalogNumber());
-                    for (Offering offering : course.getOfferings()) {
-                        System.out.print("\t\t");
-                        System.out.print(offering.getOffering() + " in ");
-                        for (Location location : offering.getLocations()) {
-
-                            System.out.print(location.getLocation() + " by ");
-                            location.printInstructors();
-                            System.out.println();
-                            for (Section section : location.getSections()) {
-                                System.out.print("\t\t\t ");
-                                System.out.println("Type=" + section.getSection()
-                                        + " Enrollment="
-                                        + section.getTotalEnrollmentTotal()
-                                        + "/"
-                                        + section.getTotalEnrollmentCapacity());
-                            }
-                        }
-
-                    }
-                }
+                System.out.print(dept.getDepartment() + " ");
+                printCourse(dept);
 
             }
         }
+    }
+
+    private void printCourse(Department dept) {
+        for (Course course : dept.getCourses()) {
+            System.out.println(course.getCatalogNumber());
+            printOffering(course);
+        }
+    }
+
+    private void printOffering(Course course) {
+        for (Offering offering : course.getOfferings()) {
+            printLocationAndTeacher(offering);
+        }
+    }
+
+    private void printLocationAndTeacher(Offering offering) {
+
+        for (Location location : offering.getLocations()) {
+            System.out.print("\t");
+            System.out.print(offering.getOffering() + " in ");
+            System.out.print(location.getLocation() + " by ");
+            location.printInstructors();
+            System.out.println();
+            printSection(location);
+            //
+
+        }
+    }
+
+    private void printSection(Location location) {
+        for (Section section : location.getSections()) {
+            System.out.print("\t\t");
+            System.out.print("Type=" + section.getSection()
+                    + ", "
+                    + "Enrollment="
+                    + section.getTotalEnrollmentTotal()
+                    + "/" +
+                    section.getTotalEnrollmentCapacity());
+            System.out.println();
+        }
+
+       // System.out.println();
+
     }
 
     private void readLine(String line) {
