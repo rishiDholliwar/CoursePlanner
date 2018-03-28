@@ -33,6 +33,7 @@ public class CSVCourseFileReader {
     }
 
     public DataManager getCoursesFromCSVFile() throws IOException {
+        System.out.println("Printing 1137 cmpt 106 ");
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine(); //skip first line
 
@@ -120,7 +121,15 @@ public class CSVCourseFileReader {
             column++;
         }
 
+
         row.setInstructors(instructors);
+        if(row.getSemester()== 1137 && row.getSubject().equals("CMPT") && row.getCatalogNumber().equals("106")){
+            System.out.println(row.getSemester() + ", " + row.getSubject() + ", " + row.getCatalogNumber() + ", " + row.getLocation() + ", " +row.getEnrollmentCapacity()
+                    +", " + row.getEnrollmentTotal() + ", "+row.getInstructors().get(0) +", "+  row.getComponentCode());
+            System.out.println();
+        }
+
+
         updateDataManager(row);
     }
 
