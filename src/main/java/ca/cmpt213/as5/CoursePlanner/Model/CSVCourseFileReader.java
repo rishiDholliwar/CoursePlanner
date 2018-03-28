@@ -52,14 +52,13 @@ public class CSVCourseFileReader {
         System.out.println();
         System.out.println("Printing CSV File:");
         for (Department dept : dm.getDepartments()) {
-            System.out.print(dept.getDepartment() + " ");
             printCourse(dept);
         }
     }
 
     private void printCourse(Department dept) {
         for (Course course : dept.getCourses()) {
-            System.out.println(course.getCatalogNumber());
+            System.out.println(dept.getDepartment() + " " + course.getCatalogNumber());
             printOffering(course);
         }
     }
