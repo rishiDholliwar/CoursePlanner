@@ -6,14 +6,12 @@ import ca.cmpt213.as5.CoursePlanner.Model.Sorters.LocationSorter;
 import ca.cmpt213.as5.CoursePlanner.Model.Sorters.OfferingSorter;
 import ca.cmpt213.as5.CoursePlanner.Model.Sorters.SectionSorter;
 import com.sun.deploy.util.StringUtils;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class CSVCourseFileReader {
     private static final String EMPTY_SPACE = "";
-    private static final String SINGLE_SPACE = " ";
     private static final String DELIMITER = ",";
     private final String FIRST_MULTIPLE_INSTRUCTOR_SYMBOL = "\"";
     private final String LAST_MULTIPLE_INSTRUCTOR_SYMBOL = "\"";
@@ -28,18 +26,13 @@ public class CSVCourseFileReader {
     private final int COMPONENT_CODE = 7;
 
     private String file = null;
-    DataManager dm = new DataManager();
-    private int deptIndex = 0;
+    private DataManager dm = new DataManager();
 
     public CSVCourseFileReader(String file) {
         this.file = file;
     }
 
     public DataManager getCoursesFromCSVFile() throws IOException {
-        //    System.out.println("----------------------------------------");
-        //   System.out.println("Printing Classes:");
-
-
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine(); //skip first line
 
@@ -59,8 +52,8 @@ public class CSVCourseFileReader {
         System.out.println();
         System.out.println("Printing CSV File:");
         for (Department dept : dm.getDepartments()) {
-                System.out.print(dept.getDepartment() + " ");
-                printCourse(dept);
+            System.out.print(dept.getDepartment() + " ");
+            printCourse(dept);
         }
     }
 
@@ -78,7 +71,6 @@ public class CSVCourseFileReader {
     }
 
     private void printLocationAndTeacher(Offering offering) {
-
         for (Location location : offering.getLocations()) {
             System.out.print("\t");
             System.out.print(offering.getOffering() + " in ");
@@ -86,8 +78,6 @@ public class CSVCourseFileReader {
             location.printInstructors();
             System.out.println();
             printSection(location);
-            //
-
         }
     }
 
@@ -102,15 +92,12 @@ public class CSVCourseFileReader {
                     section.getTotalEnrollmentCapacity());
             System.out.println();
         }
-
-       // System.out.println();
-
     }
 
     private void readLine(String line) {
         CSVRow row = new CSVRow();
         ArrayList<String> instructors = new ArrayList<>();
-        //  DataManager dataManager = new DataManager(StringUtils.trimWhitespace(word));
+
         int column = 0;
         boolean isAddingMultipleInstructor = false;
         boolean isMultipleInstructors = false;
@@ -136,12 +123,6 @@ public class CSVCourseFileReader {
 
         row.setInstructors(instructors);
         updateDataManager(row);
-        // sfuClass.printClass();
-        //   System.out.println();
-        //  updateCourses(sfuClass);
-        //  sortCourses();
-
-
     }
 
     private boolean isMultipleInstructorsColumn(String word) {
@@ -197,10 +178,9 @@ public class CSVCourseFileReader {
 
     private void updateDataManager(CSVRow row) {
         boolean isNewDept = true;
-        //  System.out.println("Looking for dept: " + row.getSubject());
+
         for (Department dept : dm.getDepartments()) {
             if (dept.getDepartment().equals(row.getSubject())) {
-                //  System.out.println("found th");
                 addCourse(dept, row);
                 isNewDept = false;
                 break;
@@ -216,6 +196,7 @@ public class CSVCourseFileReader {
 
     public void addCourse(Department dept, CSVRow row) {
         boolean isNewCourse = true;
+
         for (Course course : dept.getCourses()) {
             if (course.getCatalogNumber().equals(row.getCatalogNumber())) {
                 addOffering(course, row);
@@ -231,11 +212,11 @@ public class CSVCourseFileReader {
             addOffering(course, row);
             java.util.Collections.sort(dept.getCourses(), new CatalogSorter());
         }
-
     }
 
     private void addOffering(Course course, CSVRow row) {
         boolean isNewOffering = true;
+
         for (Offering offering : course.getOfferings()) {
             if (offering.getOffering() == row.getSemester()) {
                 addLocation(offering, row);
@@ -279,6 +260,7 @@ public class CSVCourseFileReader {
     private void addSection(Location location, CSVRow row) {
         location.addInstructors(row.getInstructors());
         boolean isNewSection = true;
+
         for (Section section : location.getSections()) {
             if (section.getSection().equals(row.getComponentCode())) {
                 section.accumalateTotalEnrollmentCapacity(row.getEnrollmentCapacity());
@@ -294,7 +276,6 @@ public class CSVCourseFileReader {
             location.addSection(section);
             section.accumalateTotalEnrollmentCapacity(row.getEnrollmentCapacity());
             section.accumalateTotalEnrollmentTotal(row.getEnrollmentTotal());
-            //    addSection(location, row);
             java.util.Collections.sort(location.getSections(), new SectionSorter());
         }
 
