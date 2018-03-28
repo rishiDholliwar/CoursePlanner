@@ -9,7 +9,7 @@ import java.io.IOException;
 @RestController
 public class CoursePlannerController {
 
-    private String file = "data/course_data_2016.csv";
+    private String file = "data/course_data_2018.csv";
 
     @GetMapping("/dump-model")
     public String getDumpModel() throws IOException {

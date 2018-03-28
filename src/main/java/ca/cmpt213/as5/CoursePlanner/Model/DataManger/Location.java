@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Location {
-
-
     private String location;
     private ArrayList<Section> sections = new ArrayList<>();
     private ArrayList<String> instructors = new ArrayList<>();
@@ -30,40 +28,26 @@ public class Location {
         this.sections.add(section);
     }
 
-    public ArrayList<String> getInstructors() {
-        return instructors;
-    }
-
-    public void addInstructors(ArrayList<String> instructor) {
-        for (String x : instructor){
-            if(!x.equals("(null)")) {
-                if (!instructors.contains(x)) {
-                    instructors.add(x);
+    public void addInstructors(ArrayList<String> instructors) {
+        for (String instructor : instructors) {
+            if (!instructor.equals("(null)")) {
+                if (!this.instructors.contains(instructor)) {
+                    this.instructors.add(instructor);
                 }
             }
         }
-       // this.instructors.addAll(instructor);
-
-    }
-
-    private void removeDuplicateInstructor(ArrayList<String> instructor){
-
-
-
     }
 
     public void printInstructors() {
         int isLast = 0;
         for (String instructor : instructors) {
             isLast++;
-            if((instructors.size()) != isLast) {
+            if ((instructors.size()) != isLast) {
                 System.out.print(instructor + ", ");
             } else {
                 System.out.print(instructor);
             }
 
         }
-
-
     }
 }

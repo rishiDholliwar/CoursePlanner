@@ -6,7 +6,6 @@ import java.util.Comparator;
 
 public class OfferingSorter implements Comparator<Offering> {
 
-
     @Override
     public int compare(Offering o1, Offering o2) {
         return o1.getOffering() - o2.getOffering();

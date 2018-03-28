@@ -13,9 +13,5 @@ import java.io.IOException;
 public class Application {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(Application.class, args);
-
-        //  CSVCourseFileReader csvCourseFileReader = new CSVCourseFileReader("data/course_data_2016.csv");
-        //  csvCourseFileReader.getCoursesFromCSVFile();
-        // csvCourseFileReader.printCourses();
     }
 }

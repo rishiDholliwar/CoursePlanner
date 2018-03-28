@@ -3,7 +3,6 @@ package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 import java.util.ArrayList;
 
 public class Department {
-
     private String department;
     private ArrayList<Course> courses = new ArrayList<>();
 
@@ -19,17 +18,7 @@ public class Department {
         return courses;
     }
 
-    public void setCourses(ArrayList<Course> courses) {
-        this.courses = courses;
-    }
-
-    public void addCourses(Course course){
+    public void addCourses(Course course) {
         this.courses.add(course);
-    }
-
-    public void printCourses(){
-        for (Course course : courses){
-
-        }
     }
 }

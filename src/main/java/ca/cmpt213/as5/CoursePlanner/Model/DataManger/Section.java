@@ -1,13 +1,10 @@
 package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
-import java.util.ArrayList;
 
 public class Section {
-
     private String section;
     private int totalEnrollmentCapacity;
     private int totalEnrollmentTotal;
-    //private ArrayList<> departments = new ArrayList<>();
 
     public Section(String section) {
         this.section = section;
@@ -21,7 +18,7 @@ public class Section {
         return totalEnrollmentCapacity;
     }
 
-    public void accumalateTotalEnrollmentCapacity(int totalEnrollmentCapacity) {
+    public void accumulateEnrollmentCapacity(int totalEnrollmentCapacity) {
         this.totalEnrollmentCapacity += totalEnrollmentCapacity;
     }
 
@@ -29,7 +26,7 @@ public class Section {
         return totalEnrollmentTotal;
     }
 
-    public void accumalateTotalEnrollmentTotal(int totalEnrollmentTotal) {
+    public void accumulateEnrollmentTotal(int totalEnrollmentTotal) {
         this.totalEnrollmentTotal += totalEnrollmentTotal;
     }
 }

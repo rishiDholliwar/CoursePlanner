@@ -262,8 +262,8 @@ public class CSVCourseFileReader {
 
         for (Section section : location.getSections()) {
             if (section.getSection().equals(row.getComponentCode())) {
-                section.accumalateTotalEnrollmentCapacity(row.getEnrollmentCapacity());
-                section.accumalateTotalEnrollmentTotal(row.getEnrollmentTotal());
+                section.accumulateEnrollmentCapacity(row.getEnrollmentCapacity());
+                section.accumulateEnrollmentTotal(row.getEnrollmentTotal());
                 isNewSection = false;
                 java.util.Collections.sort(location.getSections(), new SectionSorter());
                 break;
@@ -273,10 +273,9 @@ public class CSVCourseFileReader {
         if (isNewSection) {
             Section section = new Section(row.getComponentCode());
             location.addSection(section);
-            section.accumalateTotalEnrollmentCapacity(row.getEnrollmentCapacity());
-            section.accumalateTotalEnrollmentTotal(row.getEnrollmentTotal());
+            section.accumulateEnrollmentCapacity(row.getEnrollmentCapacity());
+            section.accumulateEnrollmentTotal(row.getEnrollmentTotal());
             java.util.Collections.sort(location.getSections(), new SectionSorter());
         }
-
     }
 }

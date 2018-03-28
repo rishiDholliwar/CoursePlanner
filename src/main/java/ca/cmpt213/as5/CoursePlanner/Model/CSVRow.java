@@ -3,7 +3,6 @@ package ca.cmpt213.as5.CoursePlanner.Model;
 import java.util.ArrayList;
 
 public class CSVRow {
-
     private int semester;
     private String subject;
     private String catalogNumber;
@@ -15,17 +14,6 @@ public class CSVRow {
 
     public CSVRow() {
 
-    }
-
-    public CSVRow(int semester, String subject, String catalogNumber, String location, int enrollmentCapacity, int enrollmentTotal, ArrayList<String> instructor, String componentCode) {
-        this.semester = semester;
-        this.subject = subject;
-        this.catalogNumber = catalogNumber;
-        this.location = location;
-        this.enrollmentCapacity = enrollmentCapacity;
-        this.enrollmentTotal = enrollmentTotal;
-        this.instructors = instructor;
-        this.componentCode = componentCode;
     }
 
     public int getSemester() {
@@ -92,26 +80,4 @@ public class CSVRow {
         this.componentCode = componentCode.replaceAll(" ", "");
 
     }
-
-    public void printClass() {
-        System.out.print(semester + " "
-                + subject + " "
-                + catalogNumber + " "
-                + location + " "
-                + enrollmentCapacity + " "
-                + enrollmentTotal + " ");
-        printInstructors();
-        System.out.print(componentCode + " ");
-    }
-
-    private void printInstructors() {
-
-        for (String instructor : instructors) {
-            System.out.print(instructor + " ");
-        }
-
-
-    }
-
-
 }

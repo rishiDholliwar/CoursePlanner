@@ -3,7 +3,6 @@ package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 import java.util.ArrayList;
 
 public class Offering {
-
     private int offering;
     private ArrayList<Location> locations = new ArrayList<>();
 
@@ -23,7 +22,7 @@ public class Offering {
         return locations;
     }
 
-    public void addLocation(Location location){
+    public void addLocation(Location location) {
         this.locations.add(location);
     }
 }
