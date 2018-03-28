@@ -59,11 +59,8 @@ public class CSVCourseFileReader {
         System.out.println();
         System.out.println("Printing CSV File:");
         for (Department dept : dm.getDepartments()) {
-            if (dept.getDepartment().equals("CMPT")) {
                 System.out.print(dept.getDepartment() + " ");
                 printCourse(dept);
-
-            }
         }
     }
 
