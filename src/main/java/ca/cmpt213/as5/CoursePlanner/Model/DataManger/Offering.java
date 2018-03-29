@@ -2,7 +2,7 @@ package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
 import java.util.ArrayList;
 
-public class Offering {
+public class Offering implements Comparable<Offering>{
     private int offering;
     private ArrayList<Location> locations = new ArrayList<>();
 
@@ -24,5 +24,10 @@ public class Offering {
 
     public void addLocation(Location location) {
         this.locations.add(location);
+    }
+
+    @Override
+    public int compareTo(Offering o) {
+        return this.getOffering() - o.getOffering();
     }
 }

@@ -1,10 +1,6 @@
 package ca.cmpt213.as5.CoursePlanner.Model;
 
 import ca.cmpt213.as5.CoursePlanner.Model.DataManger.*;
-import ca.cmpt213.as5.CoursePlanner.Model.Sorters.CatalogSorter;
-import ca.cmpt213.as5.CoursePlanner.Model.Sorters.LocationSorter;
-import ca.cmpt213.as5.CoursePlanner.Model.Sorters.OfferingSorter;
-import ca.cmpt213.as5.CoursePlanner.Model.Sorters.SectionSorter;
 import com.sun.deploy.util.StringUtils;
 
 import java.io.*;
@@ -33,7 +29,6 @@ public class CSVCourseFileReader {
     }
 
     public DataManager getCoursesFromCSVFile() throws IOException {
-        System.out.println("Printing 1137 cmpt 106 ");
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine(); //skip first line
 
@@ -123,13 +118,6 @@ public class CSVCourseFileReader {
 
 
         row.setInstructors(instructors);
-        if(row.getSemester()== 1137 && row.getSubject().equals("CMPT") && row.getCatalogNumber().equals("106")){
-            System.out.println(row.getSemester() + ", " + row.getSubject() + ", " + row.getCatalogNumber() + ", " + row.getLocation() + ", " +row.getEnrollmentCapacity()
-                    +", " + row.getEnrollmentTotal() + ", "+row.getInstructors().get(0) +", "+  row.getComponentCode());
-            System.out.println();
-        }
-
-
         updateDataManager(row);
     }
 
@@ -191,6 +179,7 @@ public class CSVCourseFileReader {
             if (dept.getDepartment().equals(row.getSubject())) {
                 addCourse(dept, row);
                 isNewDept = false;
+                java.util.Collections.sort(dm.getDepartments());
                 break;
             }
         }
@@ -199,6 +188,7 @@ public class CSVCourseFileReader {
             Department department = new Department(row.getSubject());
             dm.addDepartment(department);
             addCourse(department, row);
+            java.util.Collections.sort(dm.getDepartments());
         }
     }
 
@@ -209,7 +199,7 @@ public class CSVCourseFileReader {
             if (course.getCatalogNumber().equals(row.getCatalogNumber())) {
                 addOffering(course, row);
                 isNewCourse = false;
-                java.util.Collections.sort(dept.getCourses(), new CatalogSorter());
+                java.util.Collections.sort(dept.getCourses());
                 break;
             }
         }
@@ -218,7 +208,7 @@ public class CSVCourseFileReader {
             Course course = new Course(row.getCatalogNumber());
             dept.addCourses(course);
             addOffering(course, row);
-            java.util.Collections.sort(dept.getCourses(), new CatalogSorter());
+            java.util.Collections.sort(dept.getCourses());
         }
     }
 
@@ -229,7 +219,7 @@ public class CSVCourseFileReader {
             if (offering.getOffering() == row.getSemester()) {
                 addLocation(offering, row);
                 isNewOffering = false;
-                java.util.Collections.sort(course.getOfferings(), new OfferingSorter());
+                java.util.Collections.sort(course.getOfferings());
                 break;
             }
         }
@@ -238,7 +228,7 @@ public class CSVCourseFileReader {
             Offering offering = new Offering(row.getSemester());
             course.addOffering(offering);
             addLocation(offering, row);
-            java.util.Collections.sort(course.getOfferings(), new OfferingSorter());
+            java.util.Collections.sort(course.getOfferings());
         }
 
     }
@@ -251,7 +241,7 @@ public class CSVCourseFileReader {
 
                 addSection(location, row);
                 isNewLocation = false;
-                java.util.Collections.sort(offering.getLocations(), new LocationSorter());
+                java.util.Collections.sort(offering.getLocations());
                 break;
             }
         }
@@ -260,7 +250,7 @@ public class CSVCourseFileReader {
             Location location = new Location(row.getLocation());
             offering.addLocation(location);
             addSection(location, row);
-            java.util.Collections.sort(offering.getLocations(), new LocationSorter());
+            java.util.Collections.sort(offering.getLocations());
         }
 
     }
@@ -274,7 +264,7 @@ public class CSVCourseFileReader {
                 section.accumulateEnrollmentCapacity(row.getEnrollmentCapacity());
                 section.accumulateEnrollmentTotal(row.getEnrollmentTotal());
                 isNewSection = false;
-                java.util.Collections.sort(location.getSections(), new SectionSorter());
+                java.util.Collections.sort(location.getSections());
                 break;
             }
         }
@@ -284,7 +274,7 @@ public class CSVCourseFileReader {
             location.addSection(section);
             section.accumulateEnrollmentCapacity(row.getEnrollmentCapacity());
             section.accumulateEnrollmentTotal(row.getEnrollmentTotal());
-            java.util.Collections.sort(location.getSections(), new SectionSorter());
+            java.util.Collections.sort(location.getSections());
         }
     }
 }

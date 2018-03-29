@@ -1,8 +1,9 @@
 package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
+
 import java.util.ArrayList;
 
-public class Department {
+public class Department implements Comparable<Department> {
     private String department;
     private ArrayList<Course> courses = new ArrayList<>();
 
@@ -20,5 +21,10 @@ public class Department {
 
     public void addCourses(Course course) {
         this.courses.add(course);
+    }
+
+    @Override
+    public int compareTo(Department o) {
+        return this.getDepartment().compareTo(o.getDepartment());
     }
 }

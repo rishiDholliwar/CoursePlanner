@@ -1,9 +1,8 @@
 package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
-public class Location {
+public class Location implements Comparable<Location>{
     private String location;
     private ArrayList<Section> sections = new ArrayList<>();
     private ArrayList<String> instructors = new ArrayList<>();
@@ -30,7 +29,7 @@ public class Location {
 
     public void addInstructors(ArrayList<String> instructors) {
         for (String instructor : instructors) {
-            if (!instructor.equals("(null)")) {
+            if (!instructor.equals("(null)") && !instructor.equals("<null>")) {
                 if (!this.instructors.contains(instructor)) {
                     this.instructors.add(instructor);
                 }
@@ -49,5 +48,10 @@ public class Location {
             }
 
         }
+    }
+
+    @Override
+    public int compareTo(Location o) {
+       return this.getLocation().compareTo(o.getLocation());
     }
 }

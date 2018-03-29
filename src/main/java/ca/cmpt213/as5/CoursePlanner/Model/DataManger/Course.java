@@ -2,7 +2,7 @@ package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
 import java.util.ArrayList;
 
-public class Course {
+public class Course implements Comparable<Course>{
     private String catalogNumber;
     private ArrayList<Offering> offerings = new ArrayList<>();
 
@@ -20,5 +20,10 @@ public class Course {
 
     public ArrayList<Offering> getOfferings() {
         return offerings;
+    }
+
+    @Override
+    public int compareTo(Course o) {
+        return this.getCatalogNumber().compareTo(o.getCatalogNumber());
     }
 }

@@ -1,7 +1,7 @@
 package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
 
-public class Section {
+public class Section implements Comparable<Section> {
     private String section;
     private int totalEnrollmentCapacity;
     private int totalEnrollmentTotal;
@@ -28,5 +28,10 @@ public class Section {
 
     public void accumulateEnrollmentTotal(int totalEnrollmentTotal) {
         this.totalEnrollmentTotal += totalEnrollmentTotal;
+    }
+
+    @Override
+    public int compareTo(Section o) {
+        return this.getSection().compareTo(o.getSection());
     }
 }
