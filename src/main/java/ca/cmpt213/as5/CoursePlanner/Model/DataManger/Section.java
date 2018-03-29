@@ -1,6 +1,9 @@
 package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
-
+/**
+ * Holds the tpye of section for a course and also
+ * has the total enrollment capacity and total
+ */
 public class Section implements Comparable<Section> {
     private String section;
     private int totalEnrollmentCapacity;

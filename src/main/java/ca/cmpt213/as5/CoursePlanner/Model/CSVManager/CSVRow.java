@@ -1,7 +1,10 @@
-package ca.cmpt213.as5.CoursePlanner.Model;
+package ca.cmpt213.as5.CoursePlanner.Model.CSVManager;
 
 import java.util.ArrayList;
 
+/**
+ * Holds information for a CSV row
+ */
 public class CSVRow {
     private int semester;
     private String subject;

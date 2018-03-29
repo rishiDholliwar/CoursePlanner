@@ -2,6 +2,10 @@ package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
 import java.util.ArrayList;
 
+/**
+ * The offering or semester of where a course is taught
+ * and holds its location
+ */
 public class Offering implements Comparable<Offering>{
     private int offering;
     private ArrayList<Location> locations = new ArrayList<>();

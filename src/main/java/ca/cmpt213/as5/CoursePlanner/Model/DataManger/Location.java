@@ -2,6 +2,9 @@ package ca.cmpt213.as5.CoursePlanner.Model.DataManger;
 
 import java.util.ArrayList;
 
+/**
+ *Holds the location of where a section and instructor teaches a course
+ */
 public class Location implements Comparable<Location>{
     private String location;
     private ArrayList<Section> sections = new ArrayList<>();
