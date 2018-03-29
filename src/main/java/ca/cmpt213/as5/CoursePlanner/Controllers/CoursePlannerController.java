@@ -1,6 +1,6 @@
 package ca.cmpt213.as5.CoursePlanner.Controllers;
 
-import UI.PrintCSV;
+import ca.cmpt213.as5.CoursePlanner.UI.PrintCSV;
 import ca.cmpt213.as5.CoursePlanner.Model.CSVManager.CSVCourseFileReader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

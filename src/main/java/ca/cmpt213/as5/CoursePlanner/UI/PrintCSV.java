@@ -1,4 +1,4 @@
-package UI;
+package ca.cmpt213.as5.CoursePlanner.UI;
 
 import ca.cmpt213.as5.CoursePlanner.Model.DataManger.*;
 
